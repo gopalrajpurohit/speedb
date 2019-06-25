@@ -30,7 +30,7 @@ public class SpeedBenchmarkTest {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (int i = 1; i <= 512; i++) {
+        for (int i = 1; i <= 10; i++) {
             stringBuilder = stringBuilder
                     .append(md5.hashLong(recordId + i).toString());
         }
@@ -337,22 +337,23 @@ public class SpeedBenchmarkTest {
         conf.set(Configuration.LOAD_FACTOR, "0.2");
         conf.set(Configuration.CACHE_ENABLED, "false");
         conf.set(Configuration.COMPRESSION_ENABLED, "false");
-        long numRecords = 1000000;
+        long numRecords = 2312402;
 
-        //Function<Void, Void> w = write(conf, numRecords);
+        Function<Void, Void> w = write(conf, numRecords);
+        Function<Void, Void> noop = verifySeq(conf, numRecords, false);
         Function<Void, Void> vs = verifySeq(conf, numRecords, false);
         Function<Void, Void> vrs = verifyRepeatedSeq(conf, numRecords, false);
         Function<Void, Void> vsa = verifySeqAbsent(conf, numRecords);
         Function<Void, Void> vrr = verifyRepeatedRandom(conf, numRecords, false);
-        //Function<Void, Void> vr = verifyRandom(conf, numRecords, false);
+        Function<Void, Void> vr = verifyRandom(conf, numRecords, false);
         Function<Void, Void> vra = verifyRandomAbsent(conf, numRecords);
 
-        //w.apply(null);
+        w.apply(null);
         vs.apply(null);
         vrs.apply(null);
         vsa.apply(null);
         vrr.apply(null);
-        //vr.apply(null);
+        vr.apply(null);
         vra.apply(null);
     }
 }
